@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <button id="fetch-button">Show gif</button>  
+  <form id="search-form">
+      <label for="search-box">Search gif:</label>
+      <input id="search-input" type="text" required>
+      <button id="submit-button" type="button" value="submit">Search</button>
+  </form>
+  <img src="#" />
+  <script>
+    const img = document.querySelector('img');
+    let fetchButton = document.getElementById('fetch-button');
+    let submitButton = document.getElementById('submit-button');
+    submitButton.addEventListener("click", function(){
+        let searchInputValue = document.getElementById('search-input').value;
+        console.log(searchInputValue);
+        let fetchValue = `https://api.giphy.com/v1/gifs/translate?api_key=jbhMTlznSIrHz7DwZkBfw6D84mHJWzUt&s=${searchInputValue}`
+        fetch(fetchValue, {mode: 'cors'})
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(response){
+            img.src = response.data.images.original.url;
+        })
+        .catch((error) => {
+            alert(error);
+            console.log(error);
+        });
+    });
+    fetchButton.addEventListener("click", function(){
+        fetch('https://api.giphy.com/v1/gifs/translate?api_key=jbhMTlznSIrHz7DwZkBfw6D84mHJWzUt&s=cats', {mode: 'cors'})
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(response){
+            img.src = response.data.images.original.url;
+        });
+    });
+  </script>
+</body>
+</html>
